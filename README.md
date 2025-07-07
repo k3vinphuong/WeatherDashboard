@@ -41,5 +41,4 @@ The data flow will be requested by the user which will go to the weather API whi
 
 - **F**rontend: HTML, CSS, JavaScript
 - **B**ackend: Python
-- **D**atabase: PostgreSQL
 - **F**ramework: Flask
