@@ -12,26 +12,28 @@
         <header>
           <h1>Dashboard</h1> 
             <section class="search-bar">
-                <input type="text" placeholder="Sydney" id="city-input"/>
+                <input type="text" placeholder="Input City" id="city-input"/>
                 <button id="search-btn">🔍</button>
             </section>  
         </header>
 
         <main>
-        <section class="weekforecast"></section>
+            <aside class="weekforecast"></aside>
 
             <section class="mainweather">
                 <h1>Location of place</h1>
-                <h3>Image of the weather</h3>
-                <h3>Degrees of weather </h3>
+                <img src="" alt=""/>
+                <p class="temp">Degrees of weather</p>
             </section>
 
-            <section class="dailyinformation">
-                <h1>Sunset/Sunrise</h1>
-                <h1>Wind Direction/Speed</h1>
-                <h1>Humidity</h1>
-                <h1>Precipitation Levels</h1>
-            </section>
+            <aside class="dailyinformation">
+                <section class="info-grid">
+                    <h1 id="sun-time">Sunset/Sunrise</h1>
+                    <h1 id="wind-info">Wind Direction/Speed</h1>
+                    <h1 id="humidity-info">Humidity</h1>
+                    <h1 id="rain-level">Precipitation Levels</h1>    
+                </section>
+            </aside>
         </main>
 
         <footer>
