@@ -18,3 +18,20 @@ function formatTime(timestamp) {
     const date = new Date(timestamp * 1000);
     return date.toLocaleDateString([], { hour: '2-digit', minute: '2-digit' });
 }
+
+function getWindDirection(deg) {
+    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    return directions[Math.round(deg / 45) % 8];
+}
+
+async function getWeather(city) {
+   try {
+        const res = await fetch('${weatherURL}?q=${city}&units=metric&appid=${apiKey}');
+        const data = await res.json();
+        if (data.cod != 200) {
+            alert("City not found");
+            return;
+        } 
+    }   
+}
+
