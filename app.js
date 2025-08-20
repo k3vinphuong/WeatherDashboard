@@ -26,7 +26,7 @@ function getWindDirection(deg) {
 
 async function getWeather(city) {
    try {
-        const res = await fetch('${weatherURL}?q=${city}&units=metric&appid=${apiKey}');
+        const res = await fetch(`${weatherURL}?q=${city}&units=metric&appid=${apiKey}`);
         const data = await res.json();
         if (data.cod != 200) {
             alert("City not found");
@@ -41,10 +41,10 @@ async function getWeather(city) {
         windInfo.textContent = `Wind: ${getWindDirection(data.wind.deg)} ${data.wind.speed} m/s`;
         humidityInfo.textContent = `Humidity: ${data.main.humidity}%`;
         
-        let precip = "0 mm";
+        let precipText = "0 mm";
         if (data.rain && data.rain["1h"]) precip = `${data.rain["1h"]} mm (rain)`;
         else if (data.snow && data.snow["1h"]) precip = `${data.snow["1h"]} mm (snow)`;
-        precip.textContent = `Precipitation: ${precip}`;
+        precip.textContent = `Precipitation: ${precipText}`;
 
         const forecastRes = await fetch(`${forecastURL}?q=${city}&units=metric&appid=${apiKey}`);
         const forecastData = await forecastRes.json();
@@ -74,7 +74,7 @@ async function getWeather(city) {
 }
 
 function handleSearch() {
-    const city = cityInput.ariaValueMax.trim();
+    const city = cityInput.value.trim();
     if (city) {
         getWeather(city);
         cityInput.value = "";
