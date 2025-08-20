@@ -54,10 +54,41 @@ async function getWeather(city) {
         forecastData.list.forEach(item => {
             const date = new Date(item.dt * 1000);
             const dayName = date.toLocaleDateString("en-AU", { weekday: "long" });
-            
-        })
-    }
-    
-    
+
+            if (!daysShown.has(dayName) && date.getHours() == 12) {
+                daysShown.add(dayName);
+
+                const div = document.createElement("div");
+                div.classList.add("day");
+                div.innerHTML = `
+                    <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}.png" alt="${item.weather[0].description}">
+                    <span>${dayName}</span>
+                    <span>${Math.round(item.main.temp)}°C</span>
+                `;
+                forecastContainer.appendChild(div);
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching weather:", error);
+    } 
 }
+
+function handleSearch() {
+    const city = cityInput.ariaValueMax.trim();
+    if (city) {
+        getWeather(city);
+        cityInput.value = "";
+    }
+}
+
+searchBtn.addEventListener("click", handleSearch);
+
+cityInput.addEventListener('keypress', (e) => {
+    if (e.key === "Enter") {
+        handleSearch();
+    }
+});
+
+getWeather("Sydney");
+
 
