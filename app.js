@@ -42,8 +42,8 @@ async function getWeather(city) {
         humidityInfo.textContent = `Humidity: ${data.main.humidity}%`;
         
         let precipText = "0 mm";
-        if (data.rain && data.rain["1h"]) precip = `${data.rain["1h"]} mm (rain)`;
-        else if (data.snow && data.snow["1h"]) precip = `${data.snow["1h"]} mm (snow)`;
+        if (data.rain && data.rain["1h"]) precipText = `${data.rain["1h"]} mm (rain)`;
+        else if (data.snow && data.snow["1h"]) precipText = `${data.snow["1h"]} mm (snow)`;
         precip.textContent = `Precipitation: ${precipText}`;
 
         const forecastRes = await fetch(`${forecastURL}?q=${city}&units=metric&appid=${apiKey}`);
@@ -51,11 +51,12 @@ async function getWeather(city) {
 
         forecastContainer.innerHTML = "";
         const daysShown = new Set();
+        
         forecastData.list.forEach(item => {
             const date = new Date(item.dt * 1000);
             const dayName = date.toLocaleDateString("en-AU", { weekday: "long" });
 
-            if (!daysShown.has(dayName) && date.getHours() == 12) {
+            if (!daysShown.has(dayName) && date.getHours() >= 11 && date.getHours() <= 13) {
                 daysShown.add(dayName);
 
                 const div = document.createElement("div");
