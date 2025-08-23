@@ -4,6 +4,8 @@ const forecastURL = "https://api.openweathermap.org/data/2.5/forecast";
 
 const cityInput = document.getElementById("city-input");
 const searchBtn = document.getElementById("search-btn");
+const refreshBtn = document.getElementById("refresh-btn");
+const lastUpdated = document.getElementById("last-updated");
 const mainCity = document.querySelector(".mainweather h1");
 const mainTemp = document.querySelector(".mainweather .temp");
 const mainIcon = document.querySelector(".mainweather img");
@@ -68,16 +70,23 @@ async function getWeather(city) {
                 `;
                 forecastContainer.appendChild(div);
             }
+
+        const now = new Date();
+        lastUpdated.textContent = `Last updated: ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+        
         });
     } catch (error) {
         console.error("Error fetching weather:", error);
     } 
 }
 
+let lastCity = "Melbourne";
+
 function handleSearch() {
     const city = cityInput.value.trim();
     if (city) {
         getWeather(city);
+        lastCity = city;
         cityInput.value = "";
     }
 }
@@ -90,6 +99,15 @@ cityInput.addEventListener('keypress', (e) => {
     }
 });
 
-getWeather("Sydney");
+refreshBtn.addEventListener("click", () => {
+    getWeather(lastCity);
+});
+
+setInterval(() => {
+    getWeather(lastCity);
+}, 600000);
+
+getWeather("Melbourne");
+
 
 
