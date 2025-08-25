@@ -17,9 +17,13 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  gap: 10px 20px;
 }
 
 header h1 {
+  display: flex;
+  align-items: center;
   font-size: 3rem;
   font-weight: bold;
   color: #444;
@@ -27,7 +31,8 @@ header h1 {
 }
 
 .search-bar {
-   display: flex;
+  display: flex;
+  align-items: flex-end;
   justify-content: flex-end;
   margin-bottom: 15px;
 }
@@ -84,12 +89,14 @@ main {
 }
 
 .mainweather {
-  background: white;
+  background: linear-gradient(180deg, #6a11cb, #2575fc);
   border-radius: 15px;
-  padding: 25px;
+  padding: 40px;
   text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   width: 400px;  
+  max-width: 90%;  
+  color: white;
 }
 
 .mainweather h1 {
@@ -98,7 +105,7 @@ main {
 }
 
 .mainweather img {
-  font-size: 6rem;     
+  font-size: 8rem;     
   margin: 20px 0;
 }
 .mainweather .temp {
@@ -108,28 +115,42 @@ main {
 }
 
 .dailyinformation {
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 15px;
   max-width: 700px;
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  background: #f7f7f7;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+.dailyinformation h1 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+  color: white;
+}
+
+.info-grid {
+  display: flex;              
+  flex-direction: column;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  color: white;
+}
+
 .info-grid h1 {
-  background: white;
+  background: rgba(255, 255, 255, 0.1);
   padding: 12px;
   border-radius: 8px;
   text-align: center;
-  font-size: 0.95em;
+  font-size: 1.1em;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
