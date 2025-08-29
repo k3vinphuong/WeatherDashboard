@@ -12,11 +12,15 @@ const windInfo = document.getElementById("wind-info");
 const humidityInfo = document.getElementById("humidity-info");
 const precip = document.getElementById("rain-level");
 
+const backendURL = "http://127.0.0.1:5000";
+
+// Format timestamp into human-readable time
 function formatTime(timestamp) {
     const date = new Date(timestamp * 1000);
     return date.toLocaleDateString([], { hour: '2-digit', minute: '2-digit' });
 }
 
+// Convert wind degrees → compass direction
 function getWindDirection(deg) {
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
     return directions[Math.round(deg / 45) % 8];
@@ -24,10 +28,13 @@ function getWindDirection(deg) {
 
 async function getWeather(city) {
     try {
-        const res = await fetch(`${weatherURL}?q=${city}&units=metric&appid=${apiKey}`);
+        const res = await fetch(`${backendURL}/weather?city=${city}`);
         const data = await res.json();
 
-        if (data.cod != 200) {
+        const weather = data.weather;
+        const forecastData = data.forecast;
+
+        if (weather.cod && weather.cod != 200) {
             alert("City not found");
             return;
         }
@@ -35,25 +42,22 @@ async function getWeather(city) {
         // Update main weather
         mainCity.textContent = data.name;
         mainTemp.textContent = `${Math.round(data.main.temp)}°C`;
-        mainIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+        mainIcon.src = `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
 
         // Update weather details
-        sunTimes.textContent = `Sunrise: ${formatTime(data.sys.sunrise)} / Sunset: ${formatTime(data.sys.sunset)}`;
-        windInfo.textContent = `Wind: ${getWindDirection(data.wind.deg)} ${data.wind.speed} m/s`;
-        humidityInfo.textContent = `Humidity: ${data.main.humidity}%`;
+        sunTimes.textContent = `Sunrise: ${formatTime(weather.sys.sunrise)} / Sunset: ${formatTime(weather.sys.sunset)}`;
+        windInfo.textContent = `Wind: ${getWindDirection(weather.wind.deg)} ${weather.wind.speed} m/s`;
+        humidityInfo.textContent = `Humidity: ${weather.main.humidity}%`;
 
         let precipText = "0 mm";
-        if (data.rain && data.rain["1h"]) {
-            precipText = `${data.rain["1h"]} mm (rain)`;
-        } else if (data.snow && data.snow["1h"]) {
-            precipText = `${data.snow["1h"]} mm (snow)`;
+        if (weather.rain && weather.rain["1h"]) {
+            precipText = `${weather.rain["1h"]} mm (rain)`;
+        } else if (weather.snow && weather.snow["1h"]) {
+            precipText = `${weather.snow["1h"]} mm (snow)`;
         }
         precip.textContent = `Precipitation: ${precipText}`;
 
-        // Fetch forecast
-        const forecastRes = await fetch(`${forecastURL}?q=${city}&units=metric&appid=${apiKey}`);
-        const forecastData = await forecastRes.json();
-
+        // Forecast
         forecastContainer.innerHTML = "";
         const daysShown = new Set();
 
@@ -84,8 +88,10 @@ async function getWeather(city) {
     }
 }
 
+// Store last searched city
 let lastCity = "Melbourne";
 
+// Handle search action
 function handleSearch() {
     const city = cityInput.value.trim();
     if (city) {

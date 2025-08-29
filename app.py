@@ -1,4 +1,4 @@
-from flask import Flask, request, jesonify
+from flask import Flask, request, jsonify
 import requests
 import os
 
@@ -12,17 +12,24 @@ FORECAST_URL = "https://api.openweathermap.org/data/2.5/forecast"
 def get_weather():
     city = request.args.get("city", "Melbourne")
 
-    weather_res = request.get(WEATHER_URL, params={
+    weather_res = requests.get(WEATHER_URL, params={
         "q": city,
         "units": "metric",
         "appid": API_KEY
     })
-    forecast_data = weather_res.json()
+    weather_data = weather_res.json()
 
-    forecast_res = request.get(FORECAST_URL, params={
+    forecast_res = requests.get(FORECAST_URL, params={
         "q": city,
         "units": "metric",
         "appid": API_KEY
     })
     forecast_data = forecast_res.json()
 
+    return jsonify({
+        "weather": weather_data,
+        "forecast": forecast_data
+    })
+
+if __name__ == "__main__":
+    app.run(debug=True)
