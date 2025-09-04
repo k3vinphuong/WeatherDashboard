@@ -40,8 +40,8 @@ async function getWeather(city) {
         }
 
         // Update main weather
-        mainCity.textContent = data.name;
-        mainTemp.textContent = `${Math.round(data.main.temp)}°C`;
+        mainCity.textContent = weather.name;
+        mainTemp.textContent = `${Math.round(weather.main.temp)}°C`;
         mainIcon.src = `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
 
         // Update weather details

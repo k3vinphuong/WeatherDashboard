@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-API_KEY = "2f7dd0fb87c2a3c1314c918804c19256"
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
 WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
 FORECAST_URL = "https://api.openweathermap.org/data/2.5/forecast"
 
