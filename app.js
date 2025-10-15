@@ -20,7 +20,7 @@ function formatTime(timestamp) {
     return date.toLocaleDateString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-// Convert wind degrees → compass direction
+// Convert wind degrees - > compass direction
 function getWindDirection(deg) {
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
     return directions[Math.round(deg / 45) % 8];
@@ -28,8 +28,13 @@ function getWindDirection(deg) {
 
 async function getWeather(city) {
     try {
+        console.log(`Fetching weather for ${city} from: ${backendURL}/weather?city=${city}`);
+
         const res = await fetch(`${backendURL}/weather?city=${city}`);
+        console.log("Response status:", res.status);
+
         const data = await res.json();
+        console.log("Data received:", data);
 
         const weather = data.weather;
         const forecastData = data.forecast;
